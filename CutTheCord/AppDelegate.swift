@@ -19,8 +19,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	var					pageURLs = [ [ "name": "Netflix", "url": "http://netflix.com" ], [ "name": "Twitch", "url": "http://twitch.tv"], ["name": "YouTube", "url": "http://youtube.com"] ]
 
 	func applicationDidFinishLaunching(aNotification: NSNotification) {
-		// Insert code here to initialize your application
-		
 //		window.styleMask = /*NSBorderlessWindowMask |*/ NSResizableWindowMask | NSTexturedBackgroundWindowMask
 		window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.PopUpMenuWindowLevelKey))
 		
@@ -36,10 +34,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			x += 1
 		}
 		
+		var	recentURLString = NSUserDefaults.standardUserDefaults().objectForKey("ULICutTheCordMostRecentURLString") as? String
+		if recentURLString == nil
+		{
+			recentURLString = pageURLs[0]["url"]
+		}
 		let	osVersion = NSProcessInfo.processInfo().operatingSystemVersion
 		webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X \(osVersion.majorVersion)_\(osVersion.minorVersion)_\(osVersion.patchVersion)) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9"
-		let	pageURL = NSURL(string: pageURLs[0]["url"]!)
+		let	pageURL = NSURL(string: recentURLString!)
 		webView.loadRequest( NSURLRequest( URL: pageURL! ) )
+	}
+	
+	func applicationWillTerminate(notification: NSNotification) {
+		if let currURL = webView.URL
+		{
+			NSUserDefaults.standardUserDefaults().setObject( currURL.absoluteString, forKey: "ULICutTheCordMostRecentURLString")
+		}
 	}
 	
 	@IBAction func takeURLIndexFromTag( sender: NSMenuItem? ) {

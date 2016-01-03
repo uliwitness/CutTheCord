@@ -14,6 +14,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="CutTheCord" customModuleProvider="target">
             <connections>
+                <outlet property="topConstraint" destination="xex-oZ-SGE" id="fpP-c9-fjM"/>
                 <outlet property="urlsMenu" destination="5DI-ja-P3m" id="wjW-Sd-JFg"/>
                 <outlet property="webView" destination="IQp-TL-Ymv" id="6Rn-q7-IO4"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
@@ -378,7 +379,7 @@
                                     <action selector="placeWindowToFillScreen:" target="Voe-Tx-rLC" id="gsq-L6-1zv"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="CV2-HL-nhn"/>
+                            <menuItem isSeparatorItem="YES" id="56Q-4F-wUf"/>
                             <menuItem title="Show Toolbar" keyEquivalent="t" id="snW-S8-Cw5">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
@@ -438,7 +439,7 @@
             </items>
         </menu>
         <window title="CutTheCord" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="QvC-M9-y7g">
-            <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" unifiedTitleAndToolbar="YES" fullSizeContentView="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="0.0" y="417" width="480" height="360"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
