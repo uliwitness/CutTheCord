@@ -20,7 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	func applicationDidFinishLaunching(aNotification: NSNotification) {
 //		window.styleMask = /*NSBorderlessWindowMask |*/ NSResizableWindowMask | NSTexturedBackgroundWindowMask
-		window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.PopUpMenuWindowLevelKey))
+		window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.FloatingWindowLevelKey))
 		
 		NSApplication.sharedApplication().presentationOptions = [NSApplicationPresentationOptions.AutoHideDock, NSApplicationPresentationOptions.AutoHideMenuBar]
 		
