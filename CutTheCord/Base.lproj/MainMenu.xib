@@ -614,6 +614,32 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="View" id="HyV-fh-RgO">
                         <items>
+                            <menuItem title="Lower Left" keyEquivalent="1" id="DWz-zv-X4d">
+                                <connections>
+                                    <action selector="placeWindowInLowerLeft:" target="Voe-Tx-rLC" id="1qf-hZ-Rd6"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Upper Left" keyEquivalent="2" id="m4b-KR-94q">
+                                <connections>
+                                    <action selector="placeWindowInUpperLeft:" target="Voe-Tx-rLC" id="LPz-P6-ZPY"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Upper Right" keyEquivalent="3" id="qYA-vD-Uxb">
+                                <connections>
+                                    <action selector="placeWindowInUpperRight:" target="Voe-Tx-rLC" id="ZzF-xI-9k4"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Lower Right" keyEquivalent="4" id="MsQ-u0-Gzd">
+                                <connections>
+                                    <action selector="placeWindowInLowerRight:" target="Voe-Tx-rLC" id="tv0-zA-4Ak"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Fill Screen" keyEquivalent="5" id="SBu-3u-6B1">
+                                <connections>
+                                    <action selector="placeWindowToFillScreen:" target="Voe-Tx-rLC" id="gsq-L6-1zv"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="CV2-HL-nhn"/>
                             <menuItem title="Show Toolbar" keyEquivalent="t" id="snW-S8-Cw5">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
