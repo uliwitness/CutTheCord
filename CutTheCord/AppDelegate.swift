@@ -15,6 +15,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	@IBOutlet weak var window: NSWindow!
 	@IBOutlet weak var webView: WKWebView!
+	@IBOutlet weak var urlsMenu: NSMenu!
+	var					pageURLs = [ [ "name": "Netflix", "url": "http://netflix.com" ], [ "name": "Twitch", "url": "http://twitch.tv"], ["name": "YouTube", "url": "http://youtube.com"] ]
 
 	func applicationDidFinishLaunching(aNotification: NSNotification) {
 		// Insert code here to initialize your application
@@ -24,9 +26,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		
 		NSApplication.sharedApplication().presentationOptions = [NSApplicationPresentationOptions.AutoHideDock, NSApplicationPresentationOptions.AutoHideMenuBar]
 		
+		var		x = 0
+		for currURL in pageURLs
+		{
+			let	itemName = currURL["name"]!
+			let newItem = urlsMenu.addItemWithTitle( itemName, action: "takeURLIndexFromTag:", keyEquivalent: "" )
+			newItem!.tag = x
+			
+			x += 1
+		}
+		
 		let	osVersion = NSProcessInfo.processInfo().operatingSystemVersion
 		webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X \(osVersion.majorVersion)_\(osVersion.minorVersion)_\(osVersion.patchVersion)) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9"
-		let	pageURL = NSURL(string:"http://netflix.com")
+		let	pageURL = NSURL(string: pageURLs[0]["url"]!)
+		webView.loadRequest( NSURLRequest( URL: pageURL! ) )
+	}
+	
+	@IBAction func takeURLIndexFromTag( sender: NSMenuItem? ) {
+		let	pageURL = NSURL(string: pageURLs[sender!.tag]["url"]!)
 		webView.loadRequest( NSURLRequest( URL: pageURL! ) )
 	}
 	
