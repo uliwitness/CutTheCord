@@ -16,20 +16,22 @@ var	myContext = 0
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-	@IBOutlet weak var window: NSWindow!
-	@IBOutlet weak var webView: WKWebView!
-	@IBOutlet weak var urlsMenu: NSMenu!
+	@IBOutlet weak var	window: NSWindow!
+	@IBOutlet weak var	webView: WKWebView!
+	@IBOutlet weak var	urlsMenu: NSMenu!
 	var					pageURLs =	[
 										[ "name": "Netflix",	"url": "http://netflix.com" ],
 										[ "name": "Twitch",		"url": "http://twitch.tv"],
 										[ "name": "YouTube",	"url": "http://youtube.com"]
 									]
 
-    deinit {
+    deinit
+	{
         webView.removeObserver(self, forKeyPath: "title", context: &myContext)
     }
 
-	func applicationDidFinishLaunching(aNotification: NSNotification) {
+	func applicationDidFinishLaunching(aNotification: NSNotification)
+	{
 //		window.styleMask = /*NSBorderlessWindowMask |*/ NSResizableWindowMask | NSTexturedBackgroundWindowMask
 		window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.FloatingWindowLevelKey))
 
@@ -58,7 +60,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		webView.loadRequest( NSURLRequest( URL: pageURL! ) )
 	}
 	
-	func applicationWillTerminate(notification: NSNotification) {
+	func applicationWillTerminate(notification: NSNotification)
+	{
 		if let currURL = webView.URL
 		{
 			NSUserDefaults.standardUserDefaults().setObject( currURL.absoluteString, forKey: "ULICutTheCordMostRecentURLString")
@@ -70,12 +73,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		return true
 	}
 	
-	@IBAction func takeURLIndexFromTag( sender: NSMenuItem? ) {
+	@IBAction func takeURLIndexFromTag( sender: NSMenuItem? )
+	{
 		let	pageURL = NSURL(string: pageURLs[sender!.tag]["url"]!)
 		webView.loadRequest( NSURLRequest( URL: pageURL! ) )
 	}
 	
-	@IBAction func placeWindowInLowerLeft( sender : AnyObject? ) {
+	@IBAction func placeWindowInLowerLeft( sender : AnyObject? )
+	{
 		var	box : NSRect = window.frame
 		box = NSScreen.screens()![0].frame
 		box.size.width /= 4.0
@@ -83,7 +88,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window.setFrame( box, display: true )
 	}
 	
-	@IBAction func placeWindowInLowerRight( sender : AnyObject? ) {
+	@IBAction func placeWindowInLowerRight( sender : AnyObject? )
+	{
 		var	box : NSRect = window.frame
 		box = NSScreen.screens()![0].frame
 		box.origin.x += (box.size.width / 4) * 3
@@ -92,7 +98,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window.setFrame( box, display: true )
 	}
 	
-	@IBAction func placeWindowInUpperRight( sender : AnyObject? ) {
+	@IBAction func placeWindowInUpperRight( sender : AnyObject? )
+	{
 		var	box : NSRect = window.frame
 		box = NSScreen.screens()![0].frame
 		box.origin.x += (box.size.width / 4) * 3
@@ -102,7 +109,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window.setFrame( box, display: true )
 	}
 	
-	@IBAction func placeWindowInUpperLeft( sender : AnyObject? ) {
+	@IBAction func placeWindowInUpperLeft( sender : AnyObject? )
+	{
 		var	box : NSRect = window.frame
 		box = NSScreen.screens()![0].frame
 		box.size.width /= 4.0
@@ -111,17 +119,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window.setFrame( box, display: true )
 	}
 	
-	@IBAction func placeWindowToFillScreen( sender : AnyObject? ) {
+	@IBAction func placeWindowToFillScreen( sender : AnyObject? )
+	{
 		var	box : NSRect = window.frame
 		box = NSScreen.screens()![0].frame
 		window.setFrame( box, display: true )
 	}
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if context == &myContext {
-            if let newValue = change?[NSKeyValueChangeNewKey] {
+	
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
+	{
+        if context == &myContext
+		{
+            if let newValue = change?[NSKeyValueChangeNewKey]
+			{
                 window.title = newValue as! String
             }
-        } else {
+        }
+		else
+		{
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
     }
