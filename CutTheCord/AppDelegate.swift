@@ -19,7 +19,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	@IBOutlet weak var window: NSWindow!
 	@IBOutlet weak var webView: WKWebView!
 	@IBOutlet weak var urlsMenu: NSMenu!
-	var					pageURLs = [ [ "name": "Netflix", "url": "http://netflix.com" ], [ "name": "Twitch", "url": "http://twitch.tv"], ["name": "YouTube", "url": "http://youtube.com"] ]
+	var					pageURLs =	[
+										[ "name": "Netflix",	"url": "http://netflix.com" ],
+										[ "name": "Twitch",		"url": "http://twitch.tv"],
+										[ "name": "YouTube",	"url": "http://youtube.com"]
+									]
 
     deinit {
         webView.removeObserver(self, forKeyPath: "title", context: &myContext)
