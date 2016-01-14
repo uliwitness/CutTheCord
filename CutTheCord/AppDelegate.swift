@@ -10,6 +10,9 @@ import Cocoa
 import WebKit
 
 
+var	myContext = 0
+
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
@@ -18,9 +21,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	@IBOutlet weak var urlsMenu: NSMenu!
 	var					pageURLs = [ [ "name": "Netflix", "url": "http://netflix.com" ], [ "name": "Twitch", "url": "http://twitch.tv"], ["name": "YouTube", "url": "http://youtube.com"] ]
 
+    deinit {
+        webView.removeObserver(self, forKeyPath: "title", context: &myContext)
+    }
+
 	func applicationDidFinishLaunching(aNotification: NSNotification) {
 //		window.styleMask = /*NSBorderlessWindowMask |*/ NSResizableWindowMask | NSTexturedBackgroundWindowMask
 		window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.FloatingWindowLevelKey))
+
+        webView.addObserver(self, forKeyPath: "title", options: .New, context: &myContext)
 		
 		NSApplication.sharedApplication().presentationOptions = [NSApplicationPresentationOptions.AutoHideDock, NSApplicationPresentationOptions.AutoHideMenuBar]
 		
@@ -103,5 +112,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		box = NSScreen.screens()![0].frame
 		window.setFrame( box, display: true )
 	}
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if context == &myContext {
+            if let newValue = change?[NSKeyValueChangeNewKey] {
+                window.title = newValue as! String
+            }
+        } else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
+    }
 }
 
