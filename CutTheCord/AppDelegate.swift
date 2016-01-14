@@ -52,6 +52,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 	
+	func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool
+	{
+		return true
+	}
+	
 	@IBAction func takeURLIndexFromTag( sender: NSMenuItem? ) {
 		let	pageURL = NSURL(string: pageURLs[sender!.tag]["url"]!)
 		webView.loadRequest( NSURLRequest( URL: pageURL! ) )
