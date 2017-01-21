@@ -30,56 +30,53 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         webView.removeObserver(self, forKeyPath: "title", context: &myContext)
     }
 
-	func applicationDidFinishLaunching(aNotification: NSNotification)
+	func applicationDidFinishLaunching(_ aNotification: Notification)
 	{
-//		window.styleMask = /*NSBorderlessWindowMask |*/ NSResizableWindowMask | NSTexturedBackgroundWindowMask
-		window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.FloatingWindowLevelKey))
+		window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.floatingWindow))
 
-        webView.addObserver(self, forKeyPath: "title", options: .New, context: &myContext)
+        webView.addObserver(self, forKeyPath: "title", options: .new, context: &myContext)
 		
-		NSApplication.sharedApplication().presentationOptions = [NSApplicationPresentationOptions.AutoHideDock, NSApplicationPresentationOptions.AutoHideMenuBar]
+		NSApplication.shared().presentationOptions = [NSApplicationPresentationOptions.autoHideDock, NSApplicationPresentationOptions.autoHideMenuBar]
 		
 		var		x = 0
 		for currURL in pageURLs
 		{
 			let	itemName = currURL["name"]!
-			let newItem = urlsMenu.addItemWithTitle( itemName, action: "takeURLIndexFromTag:", keyEquivalent: "" )
-			newItem!.tag = x
+			let newItem = urlsMenu.addItem( withTitle: itemName, action: #selector(AppDelegate.takeURLIndexFromTag(_:)), keyEquivalent: "" )
+			newItem.tag = x
 			
 			x += 1
 		}
 		
-		var	recentURLString = NSUserDefaults.standardUserDefaults().objectForKey("ULICutTheCordMostRecentURLString") as? String
+		var	recentURLString = UserDefaults.standard.object(forKey: "ULICutTheCordMostRecentURLString") as? String
 		if recentURLString == nil
 		{
 			recentURLString = pageURLs[0]["url"]
 		}
-		let	osVersion = NSProcessInfo.processInfo().operatingSystemVersion
+		let	osVersion = ProcessInfo.processInfo.operatingSystemVersion
 		webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X \(osVersion.majorVersion)_\(osVersion.minorVersion)_\(osVersion.patchVersion)) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9"
-		let	pageURL = NSURL(string: recentURLString!)
-		webView.loadRequest( NSURLRequest( URL: pageURL! ) )
+		let	pageURL = URL(string: recentURLString!)
+		webView.load( URLRequest( url: pageURL! ) )
+		
+		window.styleMask.remove( [.closable] )
+		window.styleMask.insert( [.titled] )
 	}
 	
-	func applicationWillTerminate(notification: NSNotification)
+	func applicationWillTerminate(_ notification: Notification)
 	{
-		if let currURL = webView.URL
+		if let currURL = webView.url
 		{
-			NSUserDefaults.standardUserDefaults().setObject( currURL.absoluteString, forKey: "ULICutTheCordMostRecentURLString")
+			UserDefaults.standard.set( currURL.absoluteString, forKey: "ULICutTheCordMostRecentURLString")
 		}
 	}
 	
-	func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool
+	@IBAction func takeURLIndexFromTag( _ sender: NSMenuItem? )
 	{
-		return true
+		let	pageURL = URL(string: pageURLs[sender!.tag]["url"]!)
+		webView.load( URLRequest( url: pageURL! ) )
 	}
 	
-	@IBAction func takeURLIndexFromTag( sender: NSMenuItem? )
-	{
-		let	pageURL = NSURL(string: pageURLs[sender!.tag]["url"]!)
-		webView.loadRequest( NSURLRequest( URL: pageURL! ) )
-	}
-	
-	@IBAction func placeWindowInLowerLeft( sender : AnyObject? )
+	@IBAction func placeWindowInLowerLeft( _ sender : AnyObject? )
 	{
 		var	box : NSRect = window.frame
 		box = NSScreen.screens()![0].frame
@@ -88,17 +85,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window.setFrame( box, display: true )
 	}
 	
-	@IBAction func placeWindowInLowerRight( sender : AnyObject? )
+	@IBAction func placeWindowInLowerRight( _ sender : AnyObject? )
 	{
 		var	box : NSRect = window.frame
 		box = NSScreen.screens()![0].frame
-		box.origin.x += (box.size.width / 4) * 3
-		box.size.width /= 4.0
-		box.size.height /= 4.0
+		box.size.width = (box.size.width / 5.0) * 2.0
+		box.size.height = (box.size.height / 5.0) * 2.0
 		window.setFrame( box, display: true )
 	}
 	
-	@IBAction func placeWindowInUpperRight( sender : AnyObject? )
+	@IBAction func placeWindowInUpperRight( _ sender : AnyObject? )
 	{
 		var	box : NSRect = window.frame
 		box = NSScreen.screens()![0].frame
@@ -109,35 +105,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window.setFrame( box, display: true )
 	}
 	
-	@IBAction func placeWindowInUpperLeft( sender : AnyObject? )
+	@IBAction func placeWindowInUpperLeft( _ sender : AnyObject? )
 	{
 		var	box : NSRect = window.frame
 		box = NSScreen.screens()![0].frame
-		box.size.width /= 4.0
-		box.origin.y += (box.size.height / 4) * 3
-		box.size.height /= 4.0
+		box.size.width = (box.size.width / 5.0) * 2.0
+		box.size.height = (box.size.height / 5.0) * 2.0
 		window.setFrame( box, display: true )
 	}
 	
-	@IBAction func placeWindowToFillScreen( sender : AnyObject? )
+	@IBAction func placeWindowToFillScreen( _ sender : AnyObject? )
 	{
 		var	box : NSRect = window.frame
 		box = NSScreen.screens()![0].frame
 		window.setFrame( box, display: true )
 	}
 	
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
 	{
         if context == &myContext
 		{
-            if let newValue = change?[NSKeyValueChangeNewKey]
+            if let newValue = change?[NSKeyValueChangeKey.newKey]
 			{
                 window.title = newValue as! String
             }
         }
 		else
 		{
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
 }
