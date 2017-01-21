@@ -20,9 +20,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	@IBOutlet weak var	webView: WKWebView!
 	@IBOutlet weak var	urlsMenu: NSMenu!
 	var					pageURLs =	[
-										[ "name": "Netflix",	"url": "http://netflix.com" ],
-										[ "name": "Twitch",		"url": "http://twitch.tv"],
-										[ "name": "YouTube",	"url": "http://youtube.com"]
+										[ "name": "Netflix",			"url": "http://netflix.com" ],
+										[ "name": "Twitch",				"url": "http://twitch.tv"],
+										[ "name": "YouTube",			"url": "http://youtube.com"],
+										[ "name": "Amazon Prime Video",	"url": "https://www.amazon.de/gp/video/storefront/"]
 									]
 
     deinit
